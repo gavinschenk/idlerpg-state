@@ -8,13 +8,16 @@ import argparse
 import sys
 import urllib.request
 import xml.etree.ElementTree as ET
+from urllib.parse import urlencode, quote_plus
 
 __version__='0.9'
 
 
 def process_idlerpg_query( args ):
 
-    url = f'https://idlerpg.lolhosting.net/xml.php?player={args.character}'
+    payload = {'player':args.character }
+    payload_encoded = urlencode(payload, quote_via=quote_plus)
+    url = f'https://idlerpg.lolhosting.net/xml.php?{payload_encoded}'
     response = urllib.request.urlopen(url).read()
     tree = ET.fromstring(response)
 
